@@ -4,7 +4,7 @@
 # Command format: Instruction [arguments / command] ..
 
 # Base image to use, this must be set as the first line
-FROM ubuntu
+FROM ubuntu:precise
 
 MAINTAINER Yourtion <yourtion@gmail.com>
 
