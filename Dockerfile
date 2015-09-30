@@ -9,7 +9,7 @@ FROM ubuntu
 MAINTAINER Yourtion <yourtion@gmail.com>
 
 # Commands to update the image
-RUN apt-get -qqy update && apt-get -qqy upgrade
+RUN apt-get -qqy update && apt-get -y upgrade
 
 # Install shadowsocks-libev
 RUN apt-get -y install wget
