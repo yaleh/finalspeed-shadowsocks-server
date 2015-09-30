@@ -9,13 +9,13 @@ FROM ubuntu
 MAINTAINER Yourtion <yourtion@gmail.com>
 
 # Commands to update the image
-RUN apt-get -qqy update && apt-get -y upgrade
+RUN apt-get -y update && apt-get -y upgrade
 
 # Install shadowsocks-libev
 RUN apt-get -y install wget
 RUN wget -O- http://shadowsocks.org/debian/1D27208A.gpg | sudo apt-key add - && \
     echo "deb http://shadowsocks.org/debian wheezy main" >> /etc/apt/sources.list && \
-    apt-get -qqy update && \
+    apt-get -y update && \
     apt-get -y install shadowsocks-libev
     
 EXPOSE 8388
