@@ -18,6 +18,7 @@ RUN wget -O- http://shadowsocks.org/debian/1D27208A.gpg | apt-key add - && \
     apt-get -y update && \
     apt-get -y install shadowsocks-libev
     
+ENV PASSWORD 12345678
 EXPOSE 8388
 
 ENTRYPOINT ["/usr/bin/ss-server", "-s", "0.0.0.0", "-p", "8388", "-l", "1080", "-k", $PASSWORD, "-m", "aes-256-cfb"]
