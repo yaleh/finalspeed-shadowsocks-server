@@ -9,14 +9,19 @@ FROM ubuntu
 MAINTAINER Yourtion <yourtion@gmail.com>
 
 # Commands to update the image
-RUN apt-get -qqy update && apt-get -qqy upgrade
+RUN apt-get -y update && apt-get -y upgrade
 
 # Install shadowsocks-libev
-RUN apt-get -y install wget
-RUN wget -O- http://shadowsocks.org/debian/1D27208A.gpg | sudo apt-key add - && \
-    echo "deb http://shadowsocks.org/debian wheezy main" >> /etc/apt/sources.list && \
-    apt-get -qqy update && \
-    apt-get -y install shadowsocks-libev
+RUN apt-get install build-essential autoconf libtool libssl-dev git -y
+RUN git clone https://github.com/shadowsocks/shadowsocks-libev.git /root/shadowsocks-libev
+RUN cd /root/shadowsocks-libev && git checkout v2.4.4 && ./configure && make
+RUN cd /root/shadowsocks-libev/src && install -c ss-server /usr/bin
+RUN apt-get purge git build-essential autoconf libtool libssl-dev -y  && apt-get autoremove -y && apt-get autoclean -y
+RUN rm -rf /root/shadowsocks-libev
 
-ENTRYPOINT ["ssserver", "-k $PASSWORD"]
+ENV SS_PASSWORD 1234567
+ENV SS_METHOD aes-256-cfb
+
 EXPOSE 8388
+
+ENTRYPOINT /usr/bin/ss-server -s 0.0.0.0 -p 8338 -k ${SS_PASSWORD} -m ${SS_METHOD}
